@@ -1,0 +1,5 @@
+###Your title = Title on the first page.
+***Your subtitle = Subtitle on the first page.
+-------- = end of the page
+%%%Your title = title on the other slides
+p>Your subtitle = paragraph on the other slides 
