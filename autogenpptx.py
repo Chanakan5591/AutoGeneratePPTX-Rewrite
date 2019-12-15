@@ -1,12 +1,16 @@
 from pptx import Presentation
+from pptx.dml.color import RGBColor
 import argparse
 import sys
 
 parser = argparse.ArgumentParser(description="This tool will help you create your presentation slide fast and easy. Created by Chanakan Mungtin")
-parser.add_argument("-i","--input",help="Specify powerpoint draft file created by format within 'format.txt'", nargs='?', const=None, required=True)
-parser.add_argument("-p","--pages",help="Specify how many page will be in the presentation -- DEFAULT 1", nargs='?', const=0, required=False, type=int)
+parser.add_argument("-i","--input",help="Specify powerpoint draft file created by format within 'format.txt'", nargs='?', default=None, required=True)
+parser.add_argument("-p","--pages",help="Specify how many page will be in the presentation -- DEFAULT 1", nargs='?', default=0, required=False, type=int)
+parser.add_argument("-o","--output",help="Specify ouput filename for the ouput file. -- DEFAULT output.pptx", nargs='?', default="output.pptx", required=False, type=str)
 
 args = parser.parse_args()
+
+outfilename = str(args.output)
 
 def inputFileRead(filename):
     try:
@@ -42,11 +46,11 @@ def main():
             fileContent = str(draft.strip())
             if "###" in fileContent:
                 title.text = str(fileContent.replace("###", ""))
-                prs.save('output.pptx')
-            if "***" in fileContent:
+                prs.save(outfilename)
+            elif "***" in fileContent:
                 subtitle.text = str(fileContent.replace("***", ""))
-                prs.save('output.pptx')
-            if "--------" in fileContent:
+                prs.save(outfilename)
+            elif "--------" in fileContent:
                 callCount = callCount + 1
                 if args.pages <= 1:
                     pass
@@ -57,23 +61,39 @@ def main():
                     else:
                         PCDraft = 0
 
-            if "%%%" in fileContent:
+            elif "%%%" in fileContent:
                 try:
                     content_title = content_slide[PCDraft].shapes.title
                     content_title.text = str(fileContent.replace("%%%", ""))
                 except(IndexError):
                     print("Pages is not equal to section in draft file. exiting...")
                     sys.exit(1)
-                prs.save('output.pptx')
+                prs.save(outfilename)
 
-            if "p>" in fileContent:
+            elif "p>" in fileContent:
                 try:
                     content_con = content_slide[PCDraft].shapes.placeholders[1]
                     content_con.text = str(fileContent.replace("p>", ""))
                 except(IndexError):
                     print("Pages is not enough. exiting...")
                     sys.exit(1)
-                prs.save('output.pptx')
+                prs.save(outfilename)
+
+            elif "bgcl>" in fileContent:
+                background = content_slide[PCDraft].background
+                R,G,B = str(fileContent.replace("bgcl>", "")).split(",")
+                fill = background.fill
+                fill.solid()
+                try:
+                    fill.fore_color.rgb = RGBColor(int(R), int(G), int(B))
+                except(ValueError):
+                    print("background value should be RGB seperate by comma. Example: bgcl>255,255,255")
+                    sys.exit(1)
+                prs.save(outfilename)
+            elif "\n" or "\r\n" or " " in fileContent:
+                pass
+            else:
+                print("draft file is corrupted. Check the format.txt file and try again!")
 
 
             draft = f.readline()
