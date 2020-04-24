@@ -90,7 +90,7 @@ def main():
                     sys.exit(1)
                 except(UnboundLocalError):
                     print(
-                        "Slide did not have content pages but the draft ",
+                        "Slide did not have content pages but the draft",
                         "file specify one. Existing."
                     )
                     sys.exit(1)
@@ -137,20 +137,20 @@ def main():
                     print(
                         "image value should be image path, Position of ",
                         "image horizontal, Position of image verticle, ",
-                        "size of image horizontal, size of image verticle."
+                        "size of image horizontal, size of image verticle. All in inches"
                     )
                     sys.exit(1)
                 try:
                     con_shapes.add_picture(
                         str(imgpath), Inches(int(x1)),
-                        Inches(int(y1)), Inches(int(x2)),
-                        Inches(int(y2))
+                        Inches(int(y1)), height=Inches(int(x2)),
+                        width=Inches(int(y2))
                     )
                 except(ValueError):
                     print(
                         "image value should be image path, Position of ",
                         "image horizontal, Position of image verticle, ",
-                        "size of image horizontal, size of image verticle."
+                        "size of image horizontal, size of image verticle. All in inches"
                     )
                     sys.exit(1)
                 except(FileNotFoundError):

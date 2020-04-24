@@ -4,3 +4,4 @@
 %%%Your title = title on the slides that is not the first one.
 p>Your subtitle = paragraph on the slides that is not the first one.
 bgcl>R,G,B = set background color with RGB number seperate by comma. Example: bgcl>255,255,255
+img>FilePath,positionX,positionY,heightInches,WidthInches = Specify the filepath, position and size in inches.
