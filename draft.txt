@@ -1,0 +1,6 @@
+###Your title = Title on the first page.
+***Your subtitle = Subtitle on the first page.
+-------- = end of the page
+%%%Your title = title on the slides that is not the first one.
+p>Your subtitle = paragraph on the slides that is not the first one.
+bgcl>3,3,3
