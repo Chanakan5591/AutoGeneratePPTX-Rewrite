@@ -66,13 +66,33 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
     callCount = 0
     while draft:
         fileContent = str(draft.strip())
-        if "title>" in fileContent:
-            title.text = str(fileContent.replace("title>", ""))
+        if "#" in fileContent:
+            try:
+                type(PCDraft)
+            except NameError:
+                title.text = str(fileContent.replace("#", ""))
+                prs.save(outfilename)
+            else:
+                try:
+                    content_title = content_slide[PCDraft].shapes.title
+                    content_title.text = str(fileContent.replace("#", ""))
+                except(IndexError):
+                    print(
+                        "Pages is not equal to section in draft file.",
+                        "exiting..."
+                    )
+                    sys.exit(1)
+                except(UnboundLocalError):
+                    print(
+                        "Slide did not have content pages but the draft ",
+                        "file specify one. Existing."
+                    )
+                    sys.exit(1)
+                prs.save(outfilename)
+        elif "##" in fileContent:
+            subtitle.text = str(fileContent.replace("##", ""))
             prs.save(outfilename)
-        elif "subtitle>" in fileContent:
-            subtitle.text = str(fileContent.replace("subtitle>", ""))
-            prs.save(outfilename)
-        elif "--------" in fileContent:
+        elif "\newpage" in fileContent:
             callCount += 1
             if args.pages <= 1:
                 pass
@@ -83,23 +103,23 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
                 else:
                     PCDraft = 0
 
-        elif "content_title>" in fileContent:
-            try:
-                content_title = content_slide[PCDraft].shapes.title
-                content_title.text = str(fileContent.replace("%%%", ""))
-            except(IndexError):
-                print(
-                    "Pages is not equal to section in draft file.",
-                    "exiting..."
-                )
-                sys.exit(1)
-            except(UnboundLocalError):
-                print(
-                    "Slide did not have content pages but the draft ",
-                    "file specify one. Existing."
-                )
-                sys.exit(1)
-            prs.save(outfilename)
+#        elif "content_title>" in fileContent:
+#            try:
+#                content_title = content_slide[PCDraft].shapes.title
+#                content_title.text = str(fileContent.replace("%%%", ""))
+#            except(IndexError):
+#                print(
+#                    "Pages is not equal to section in draft file.",
+#                    "exiting..."
+#                )
+#                sys.exit(1)
+#            except(UnboundLocalError):
+#                print(
+#                    "Slide did not have content pages but the draft ",
+#                    "file specify one. Existing."
+#                )
+#                sys.exit(1)
+#            prs.save(outfilename)
 
         elif "p>" in fileContent:
             try:
