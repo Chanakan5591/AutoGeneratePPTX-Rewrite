@@ -3,7 +3,6 @@ from pptx.dml.color import RGBColor
 from pptx.util import Inches
 import argparse
 import sys
-import signal
 from lxml import etree
 
 parser = argparse.ArgumentParser(
@@ -52,7 +51,7 @@ def main():
         if args.pages is None:
             print("pages flag should be number.")
             sys.exit(1)
-        for i in range(int(args.pages) - 1):
+        for _ in range(int(args.pages) - 1):
             content_slide.append(prs.slides.add_slide(content_slide_layout))
         title = title_slide.shapes.title
         subtitle = title_slide.placeholders[1]
