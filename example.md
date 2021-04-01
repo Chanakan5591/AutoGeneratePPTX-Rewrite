@@ -2,4 +2,6 @@
 ##Welcome to my slide
 \newpage
 p>paragraphtest
--this is the bullet part
+-bullet1
+p>paragraph2
+-bullet2

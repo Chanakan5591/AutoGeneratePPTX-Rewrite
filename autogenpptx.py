@@ -4,6 +4,7 @@ from pptx.util import Inches
 import argparse
 import sys
 import signal
+from lxml import etree
 
 parser = argparse.ArgumentParser(
     description="This tool will help you create" +
@@ -123,11 +124,13 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
 
         elif "p>" in fileContent:
             try:
-                text_frame = content_slide[PCDraft].shapes[1].text_frame
-                p = text_frame.add_paragraph()
-                run = p.add_run()
-                p.level = 0
-                run.text = fileContent.replace("p>", "")
+#                for shape in content_slide[PCDraft].shapes:
+#                    if not shape.has_text_frame:
+#                        continue
+                    _, body, *_ = content_slide[PCDraft].shapes.placeholders
+                    p = body.text_frame.add_paragraph()
+                    p.text = fileContent.replace("p>", "")
+                    p._pPr.insert(0, etree.Element("{http://schemas.openxmlformats.org/drawingml/2006/main}buNone"))
             except(IndexError):
                 print("Pages is not enough. exiting...")
                 sys.exit(1)
@@ -155,14 +158,14 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
             prs.save(outfilename)
         elif "-" in fileContent:
             try:
-                for shape in content_slide[PCDraft].shapes:
-                    if not shape.has_text_frame:
-                        continue
-                    text_frame = shape.text_frame
-                    p = text_frame.add_paragraph()
-                    run = p.add_run()
-                    p.level = 1
-                    run.text = fileContent.replace("-","")
+#                for shape in content_slide[PCDraft].shapes:
+#                    if not shape.has_text_frame:
+#                        continue
+#                    text_frame = shape.text_frame
+                    _, body, *_ = content_slide[PCDraft].shapes.placeholders
+                    p = body.text_frame.add_paragraph()
+                    p.level = 0
+                    p.text = fileContent.replace("-","")
             except(IndexError):
                 print("Page is not enough, exiting...")
                 sys.exit(1)
