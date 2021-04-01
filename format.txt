@@ -1,7 +1,0 @@
-title>Your title = Title on the first page.
-subtitle>Your subtitle = Subtitle on the first page.
--------- = end of the page
-content_title>Your title = title on the slides that is not the first one.
-p>Your paragraph = paragraph on the slides that is not the first one.
-bgcl>R,G,B = set background color with RGB number seperate by comma. Example: bgcl>255,255,255
-img>sample.jpeg,1,1,5,5 = Specify image path, positionX, positionY, sizeInInchesX, size in Inches Y

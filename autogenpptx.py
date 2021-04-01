@@ -66,7 +66,7 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
     callCount = 0
     while draft:
         fileContent = str(draft.strip())
-        if "#" in fileContent:
+        if "#" in fileContent and not fileContent.lstrip().startswith('##'):
             try:
                 type(PCDraft)
             except NameError:
@@ -92,7 +92,7 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
         elif "##" in fileContent:
             subtitle.text = str(fileContent.replace("##", ""))
             prs.save(outfilename)
-        elif "\newpage" in fileContent:
+        elif "\\newpage" in fileContent:
             callCount += 1
             if args.pages <= 1:
                 pass
@@ -123,8 +123,11 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
 
         elif "p>" in fileContent:
             try:
-                content_con = content_slide[PCDraft].shapes.placeholders[1]
-                content_con.text = str(fileContent.replace("p>", ""))
+                text_frame = content_slide[PCDraft].shapes[1].text_frame
+                p = text_frame.add_paragraph()
+                run = p.add_run()
+                p.level = 0
+                run.text = fileContent.replace("p>", "")
             except(IndexError):
                 print("Pages is not enough. exiting...")
                 sys.exit(1)
@@ -150,6 +153,21 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
                 )
                 sys.exit(1)
             prs.save(outfilename)
+        elif "-" in fileContent:
+            try:
+                for shape in content_slide[PCDraft].shapes:
+                    if not shape.has_text_frame:
+                        continue
+                    text_frame = shape.text_frame
+                    p = text_frame.add_paragraph()
+                    run = p.add_run()
+                    p.level = 1
+                    run.text = fileContent.replace("-","")
+            except(IndexError):
+                print("Page is not enough, exiting...")
+                sys.exit(1)
+            prs.save(outfilename)
+                
         elif "img>" in fileContent:
             con_shapes = content_slide[PCDraft].shapes
             try:
