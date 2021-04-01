@@ -75,6 +75,13 @@ def createPPTX(title, subtitle, draft, f, prs, content_slide):
                 prs.save(outfilename)
             else:
                 try:
+                    if(PCDraft != 0):
+                        for shape in content_slide[PCDraft].shapes:
+                            if not shape.has_text_frame:
+                                continue
+                            text_frame = shape.text_frame
+                            p = text_frame.paragraphs[0]
+                            p.text = fileContent.replace("#", "")
                     content_title = content_slide[PCDraft].shapes.title
                     content_title.text = str(fileContent.replace("#", ""))
                 except(IndexError):
