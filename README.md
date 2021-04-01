@@ -9,7 +9,9 @@ It is run on Python 3.
 ## Tutorial
 1. Create draft file.
 ![Draft Create IMG](https://raw.githubusercontent.com/Chanakan5591/AutoGeneratePPTX/master/img/Screenshot%20from%202019-12-15%2011-31-55.png)
+
 2. run my software.
 ![SoftwareRun IMG](https://raw.githubusercontent.com/Chanakan5591/AutoGeneratePPTX/master/img/Screenshot%20from%202019-12-15%2011-34-47.png)
+
 3. Get the result!.
 ![Result IMG](https://raw.githubusercontent.com/Chanakan5591/AutoGeneratePPTX/master/img/Screenshot%20from%202019-12-15%2011-35-24.png)
