@@ -1,6 +1,6 @@
 # AutoGeneratePPTX
 
-## Updated Code in https://git.chanakancloud.live/Chanakan5591/AutoGeneratePPTX-Rewrite. This git will be the stable version of my software
+## Updated Code in https://git.chanakancloud.live/Chanakan5591/AutoGeneratePPTX-Rewrite.
 
 I've created simple Python Software that will generate a powerpoint presentation for you by "draft" file.
 It is run on Python 3.
